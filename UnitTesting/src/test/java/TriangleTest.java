@@ -42,4 +42,14 @@ public class TriangleTest {
         Triangle.checkIfExists(0, 5, 10);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void tooBigSum() {
+        Triangle.checkIfExists(Integer.MAX_VALUE, 10, 10);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void tooBigSum() {
+        Triangle.checkIfExists(Integer.MAX_VALUE, 10, 10);
+    }
+
 }
