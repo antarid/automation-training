@@ -29,6 +29,14 @@ class Plane {
   set maxFlightDistance(value) {
     this._maxFlightDistance = value;
   }
+
+  get maxLoadCapacity() {
+    return this._maxLoadCapacity;
+  }
+
+  set maxLoadCapacity(value) {
+    this._maxLoadCapacity = value;
+  }
 }
 
 module.exports = Plane;

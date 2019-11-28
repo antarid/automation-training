@@ -7,11 +7,11 @@ class ExperimentalPlane extends Plane {
     maxFlightDistance,
     maxLoadCapacity,
     type,
-    ClassificationLevelTypes
+    classificationLevel
   ) {
     super(model, maxSpeed, maxFlightDistance, maxLoadCapacity);
     this._type = type;
-    this._classificationLevel = ClassificationLevelTypes;
+    this._classificationLevel = classificationLevel;
   }
 
   get type() {
@@ -22,11 +22,11 @@ class ExperimentalPlane extends Plane {
     this._type = value;
   }
 
-  get ClassificationLevelTypes() {
+  get classificationLevel() {
     return this._classificationLevel;
   }
 
-  set ClassificationLevelTypes(value) {
+  set classificationLevel(value) {
     this._classificationLevel = value;
   }
 }
