@@ -1,7 +1,7 @@
-const PassengerPlane = require("./Planes/PassengerPlane");
-const MilitaryPlane = require("./Planes/MilitaryPlane");
-const MilitaryType = require("./models/militaryType");
-const ExperimentalPlane = require("./Planes/ExperimentalPlane");
+const PassengerPlane = require("./PassengerPlane");
+const MilitaryPlane = require("./MilitaryPlane");
+const ExperimentalPlane = require("./ExperimentalPlane");
+const MilitaryType = require("../types/military");
 
 class Airport {
   constructor(planes) {
@@ -22,14 +22,13 @@ class Airport {
 
   getTransportMilitaryPlanes() {
     return this.getMilitaryPlanes().filter(
-      militaryPlane =>
-        militaryPlane.militaryType === MilitaryType.TYPE_TRANSPORT
+      militaryPlane => militaryPlane.militaryType === MilitaryType.Transport
     );
   }
 
   getBomberMilitaryPlanes() {
     return this.getMilitaryPlanes().filter(
-      militaryPlane => militaryPlane.militaryType === MilitaryType.BOMBER
+      militaryPlane => militaryPlane.militaryType === MilitaryType.Bomber
     );
   }
 

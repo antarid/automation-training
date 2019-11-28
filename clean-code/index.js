@@ -1,11 +1,10 @@
-const Plane = require("./Planes/Plane");
-const MilitaryPlane = require("./Planes/MilitaryPlane");
-const PassengerPlane = require("./Planes/PassengerPlane");
-const Airport = require("./Airport");
-const MilitaryType = require("./models/MilitaryType");
-const experimentalPlane = require("./Planes/ExperimentalPlane");
-const ExperimentalTypes = require("./models/ExperimentalTypes");
-const ClassificationLevel = require("./models/ClassificationLevel");
+const MilitaryPlane = require("./classes/MilitaryPlane");
+const PassengerPlane = require("./classes/PassengerPlane");
+const experimentalPlane = require("./classes/ExperimentalPlane");
+const Airport = require("./classes/Airport");
+const MilitaryTypes = require("./types/military");
+const ExperimentalTypes = require("./types/experimental");
+const ClassificationLevelTypes = require("./types/classificationLevel");
 
 (function run() {
   let planes = [
@@ -17,43 +16,31 @@ const ClassificationLevel = require("./models/ClassificationLevel");
     new PassengerPlane("Embraer 190", 870, 8100, 30800, 64),
     new PassengerPlane("Sukhoi Superjet 100", 870, 11500, 50500, 140),
     new PassengerPlane("Bombardier CS300", 920, 11000, 60700, 196),
-    new MilitaryPlane(
-      "B-1B Lancer",
-      1050,
-      21000,
-      80000,
-      MilitaryType.TYPE_BOMBER
-    ),
-    new MilitaryPlane(
-      "B-2 Spirit",
-      1030,
-      22000,
-      70000,
-      MilitaryType.TYPE_BOMBER
-    ),
+    new MilitaryPlane("B-1B Lancer", 1050, 21000, 80000, MilitaryTypes.Bomber),
+    new MilitaryPlane("B-2 Spirit", 1030, 22000, 70000, MilitaryTypes.Bomber),
     new MilitaryPlane(
       "B-52 Stratofortress",
       1000,
       20000,
       80000,
-      MilitaryType.TYPE_BOMBER
+      MilitaryTypes.Bomber
     ),
-    new MilitaryPlane("F-15", 1500, 12000, 10000, MilitaryType.TYPE_FIGHTER),
-    new MilitaryPlane("F-22", 1550, 13000, 11000, MilitaryType.TYPE_FIGHTER),
+    new MilitaryPlane("F-15", 1500, 12000, 10000, MilitaryTypes.Fighter),
+    new MilitaryPlane("F-22", 1550, 13000, 11000, MilitaryTypes.Fighter),
     new MilitaryPlane(
       "C-130 Hercules",
       650,
       5000,
       110000,
-      MilitaryType.TRANSPORT
+      MilitaryTypes.TRANSPORT
     ),
     new experimentalPlane(
       "Bell X-14",
       277,
       482,
       500,
-      ExperimentalTypes.HIGH_ALTITUDE,
-      ClassificationLevel.SECRET
+      ExperimentalTypes.HighAltitude,
+      ClassificationLevelTypes.Secret
     ),
     new experimentalPlane(
       "Ryan X-13 Vertijet",
@@ -61,7 +48,7 @@ const ClassificationLevel = require("./models/ClassificationLevel");
       307,
       500,
       ExperimentalTypes.VTOL,
-      ClassificationLevel.TOP_SECRET
+      ClassificationLevelTypes.TopSecret
     )
   ];
 
