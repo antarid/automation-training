@@ -1,5 +1,6 @@
 package by.bsu.webframework;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -36,6 +37,15 @@ public class HomePageTest {
         page.selectCountry(2);
         List<String> cities2 = page.getCityList();
         Assert.assertNotEquals(cities1, cities2);
+    }
+
+    @Test
+    public void cantClickOnPreviousDate() {
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        String classListBeforeClick = (String) executor.executeScript("return document.querySelector('.ui-datepicker-today').previousSibling.classList.toString()");
+        page.openDate().clickOnPreviousDay();
+        String classListAfterClick = (String) executor.executeScript("return document.querySelector('.ui-datepicker-today').previousSibling.classList.toString()");
+        Assert.assertEquals(classListBeforeClick, classListAfterClick); // classes weren't changed -> nothing happened
     }
 
 

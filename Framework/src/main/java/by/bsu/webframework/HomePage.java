@@ -26,6 +26,9 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//*[@id=\"pu-city\"]")
     private WebElement citySelect;
 
+    @FindBy(xpath = "//*[@id=\"SearchResultsForm\"]/div[2]/div[1]/fieldset[1]/div[1]")
+    private WebElement dateSection;
+
     public HomePage(WebDriver driver) {
         super(driver);
         driver.get(PAGE_URL);
@@ -60,6 +63,20 @@ public class HomePage extends AbstractPage {
     public HomePage clickSearch(){
         JavascriptExecutor executor = (JavascriptExecutor)driver; // java's click method doesn't works fine
         executor.executeScript("arguments[0].click();", searchButton);
+        return this;
+    }
+
+    public HomePage openDate(){
+        JavascriptExecutor executor = (JavascriptExecutor)driver; // java's click method doesn't works fine
+        executor.executeScript("arguments[0].click();", dateSection);
+
+        return this;
+    }
+
+    public HomePage clickOnPreviousDay() {
+        JavascriptExecutor executor = (JavascriptExecutor)driver; // java's click method doesn't works fine
+        executor.executeScript("document.querySelector('.ui-datepicker-today').previousSibling.click()", dateSection);
+
         return this;
     }
 
