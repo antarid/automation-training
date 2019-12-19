@@ -26,8 +26,38 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//*[@id=\"pu-city\"]")
     private WebElement citySelect;
 
+     @FindBy(xpath = "//*[@id=\"doHour\"]")
+    private WebElement dropTimeSelect;
+
+     @FindBy(xpath = "//*[@id=\"puHour\"]")
+    private WebElement pickupTimeSelect;
+
+@FindBy(xpath = "//*[@id=\"pu-location\"]")
+    private WebElement placeSelect;
+
+@FindBy(xpath = "/html/body/div[3]/div[5]/div[3]/h1")
+    private WebElement errorMessage;
+
     @FindBy(xpath = "//*[@id=\"SearchResultsForm\"]/div[2]/div[1]/fieldset[1]/div[1]")
     private WebElement dateSection;
+
+    @FindBy(xpath = "//*[@id=\"rch-select-sign-in\"]")
+    private WebElement loginButton;
+
+@FindBy(xpath = "//*[@id=\"crmEmail\"]")
+    private WebElement emailInput;
+
+
+@FindBy(xpath = "//*[@id=\"crmPsw\"]")
+    private WebElement passwordInput;
+
+    @FindBy(xpath = "//*[@id=\"modalCrmEmail\"]")
+    private WebElement signupEmailInput;
+
+ @FindBy(xpath = "//*[@id=\"CreateAccountmodal_promo\"]/div[2]/input[2]")
+    private WebElement signupPasswordInput;
+
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -42,8 +72,45 @@ public class HomePage extends AbstractPage {
         return this;
     }
 
-    public HomePage selectCountry(int index){
+    public HomePage selectCountry(int index) throws InterruptedException{
+        Thread.sleep(1000);
         Select select = new Select(countrySelect);
+        select.selectByIndex(index);
+        return this;
+    }
+
+public HomePage selectPlace(int index) throws InterruptedException{
+        Thread.sleep(1000);
+        Select select = new Select(placeSelect);
+        select.selectByIndex(index);
+        return this;
+    }
+
+    public HomePage selectTodayPickupDate(){
+        this.openDate().clickOnTodayPickup();
+        return this;
+    }
+
+    public HomePage selectTodayDropDate(){
+        this.clickOnTodayDrop();
+        return this;
+    }
+
+    public HomePage selectDropTime(int time){
+        Select select = new Select(dropTimeSelect);
+        select.selectByIndex(time);
+        return this;
+    }
+
+    public HomePage selectPickupTime(int time){
+        Select select = new Select(pickupTimeSelect);
+        select.selectByIndex(time);
+        return this;
+    }
+
+    public HomePage selectCity(int index) throws InterruptedException{
+        Thread.sleep(1000);
+        Select select = new Select(citySelect);
         select.selectByIndex(index);
         return this;
     }
@@ -61,23 +128,88 @@ public class HomePage extends AbstractPage {
     }
 
     public HomePage clickSearch(){
-        JavascriptExecutor executor = (JavascriptExecutor)driver; // java's click method doesn't works fine
-        executor.executeScript("arguments[0].click();", searchButton);
+        this.clickBySelector(searchButton);
         return this;
     }
 
     public HomePage openDate(){
-        JavascriptExecutor executor = (JavascriptExecutor)driver; // java's click method doesn't works fine
-        executor.executeScript("arguments[0].click();", dateSection);
-
+        this.clickBySelector(driver.findElement(By.cssSelector("#SearchResultsForm > div:nth-child(5) > div.datetime-section.cf > fieldset.datetime-section__pu > div.a11y-panel > span")));
         return this;
+    }
+
+    public HomePage clickOnTodayDrop(){
+        String todaySelector = "td.ui-datepicker-today.ui-datepicker-current-day";
+        this.waitForElement(By.cssSelector(todaySelector));
+        this.clickBySelector(driver.findElement(By.cssSelector(todaySelector)));
+        return this;
+
+    }
+
+    public HomePage clickOnTodayPickup(){
+        String todaySelector = "td.ui-datepicker-today";
+        this.waitForElement(By.cssSelector(todaySelector));
+        this.clickBySelector(driver.findElement(By.cssSelector(todaySelector)));
+        return this;
+    }
+
+    public String getErrorMessage(){
+        String selector = "/html/body/div[3]/div[5]/div[3]/h1";
+        this.waitForElement(By.xpath(selector)).getText();
+        return driver.findElement(By.xpath(selector)).getText();
     }
 
     public HomePage clickOnPreviousDay() {
         JavascriptExecutor executor = (JavascriptExecutor)driver; // java's click method doesn't works fine
         executor.executeScript("document.querySelector('.ui-datepicker-today').previousSibling.click()", dateSection);
-
         return this;
+    }
+
+    public HomePage openLoginWindow(){
+        this.clickBySelector(loginButton);
+        return  this;
+    }
+
+    public HomePage inputEmail(String email){
+        emailInput.sendKeys(email);
+        return this;
+    }
+  public HomePage inputPassword(String password){
+        passwordInput.sendKeys(password);
+        return this;
+    }
+
+    public HomePage inputSingupEmail(String email){
+        this.waitForElement(By.xpath("//*[@id=\"modalCrmEmail\"]"));
+        signupEmailInput.sendKeys(email);
+        return this;
+    }
+
+    public HomePage inputSingupPassword(String password){
+        signupPasswordInput.sendKeys(password);
+        return this;
+    }
+
+    public HomePage trySignup(){
+        this.clickBySelector(driver.findElement(By.cssSelector("button.loyaltyCompSignIn")));
+        return this;
+    }
+
+
+    public HomePage goToSignupForm(){
+        this.openLoginWindow();
+        this.clickBySelector(driver.findElement(By.cssSelector("#createAccountModalOpen")));
+        return this;
+    }
+
+    public HomePage tryLogin(){
+        this.clickBySelector("//*[@id=\"crmLogin\"]");
+        return this;
+    }
+
+    public String getSuccessMessage(){
+        String messageSelector = ".rch-welcome-message";
+        this.waitForElement(By.cssSelector(messageSelector));
+        return driver.findElement(By.cssSelector(messageSelector)).getText();
     }
 
 }
