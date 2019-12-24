@@ -5,9 +5,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.Test;
+import org.junit.After;
+import org.junit.Before;
 
 import java.util.Date;
 import java.util.List;
@@ -17,7 +17,7 @@ public class HomePageTest {
     private WebDriver driver;
     private HomePage page;
 
-    @BeforeClass
+    @Before
     public void browserSetUp() {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
@@ -66,9 +66,9 @@ public class HomePageTest {
 
     @Test
     public void cantInputEarlierDropDateThanPickupDate() throws InterruptedException {
-        page.selectCountry(18).selectCity(1).selectTodayPickupDate().selectTodayDropDate().selectDropTime(0).clickSearch();
+        page.selectCountry(18).selectCity(1).selectTodayPickupDate().selectDropTime(0).selectTodayDropDate().clickSearch();
         String error = page.getAlertText();
-        Assert.assertTrue(error.contains("Дата получения: должны быть до Даты возврата"));
+        Assert.assertTrue(error.contains("Дата получения: должны быть до Дата возврата"));
     }
 
     @Test
@@ -83,9 +83,10 @@ public class HomePageTest {
     public void validatesEmailInSignupForm() throws InterruptedException {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         page.goToSignupForm().inputSingupEmail("invalidEmail").inputSingupPassword("validPassword123");
-        String classListBeforeSubmit = (String) executor.executeScript("return document.querySelector('#modalCrmEmail').classList.toString()");
+        String classListBeforeSubmit = (String) executor.executeScript("return document.querySelector('#modalCrmEmail').classList.toString();");
         page.trySignup();
-        String classListAfterSubmit = (String) executor.executeScript("return document.querySelector('#modalCrmEmail').classList.toString()");
+        Thread.sleep(1000);
+        String classListAfterSubmit = (String) executor.executeScript("return document.querySelector('#modalCrmEmail').classList.toString();");
         Assert.assertNotEquals(classListAfterSubmit, classListBeforeSubmit);
     }
 
@@ -96,7 +97,7 @@ public class HomePageTest {
         Assert.assertTrue(error.contains("Извините"));
     }
 
-    @AfterClass
+    @After
     public void browserTearDown() {
         if (driver != null) {
             driver.close();

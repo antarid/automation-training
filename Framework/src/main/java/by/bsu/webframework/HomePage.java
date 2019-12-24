@@ -137,8 +137,8 @@ public HomePage selectPlace(int index) throws InterruptedException{
         return this;
     }
 
-    public HomePage clickOnTodayDrop(){
-        String todaySelector = "td.ui-datepicker-today.ui-datepicker-current-day";
+    public HomePage clickOnTodayDrop() {
+        String todaySelector = "td.first.ui-datepicker-current-day.ui-datepicker-today";
         this.waitForElement(By.cssSelector(todaySelector));
         this.clickBySelector(driver.findElement(By.cssSelector(todaySelector)));
         return this;
@@ -153,9 +153,9 @@ public HomePage selectPlace(int index) throws InterruptedException{
     }
 
     public String getErrorMessage(){
-        String selector = "/html/body/div[3]/div[5]/div[3]/h1";
-        this.waitForElement(By.xpath(selector)).getText();
-        return driver.findElement(By.xpath(selector)).getText();
+        String selector = ".stage-header>h1";
+        this.waitForElement(By.cssSelector(selector)).getText();
+        return driver.findElement(By.cssSelector(selector)).getText();
     }
 
     public HomePage clickOnPreviousDay() {
