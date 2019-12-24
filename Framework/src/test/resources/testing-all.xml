@@ -3,8 +3,7 @@
 <suite name="All tests" verbose="1" >
     <test name="All tests">
         <packages>
-            <package name="by.bsu.webframework.HomePageTest" />
-            <package name="by.bsu.webframework.CarListTest" />
+            <package name="by.bsu.webframework" />
         </packages>
     </test>
 </suite>
