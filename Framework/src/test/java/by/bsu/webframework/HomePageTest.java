@@ -35,15 +35,18 @@ public class HomePageTest {
 
     @Test
     public void countryUpdateShouldUpdateCityList() throws InterruptedException {
+        browserSetUp();
         page.selectCountry(1);
         List<String> cities1 = page.getCityList();
         page.selectCountry(2);
         List<String> cities2 = page.getCityList();
         Assert.assertNotEquals(cities1, cities2);
+        browserTearDown();
     }
 
     @Test
     public void cantClickOnPreviousDate() {
+        browserSetUp();
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         String classListBeforeClick = (String) executor.executeScript("return document.querySelector('.ui-datepicker-today').previousSibling.classList.toString()");
         page.openDate().clickOnPreviousDay();
@@ -53,35 +56,48 @@ public class HomePageTest {
 
     @Test
     public void cantBookCarLessThanInAnHour() throws InterruptedException {
+        browserSetUp();
         page.selectCountry(18).selectCity(1).selectTodayPickupDate().selectPickupTime(new Date().getHours() + 1).clickSearch();
         String error = page.getAlertText();
         Assert.assertTrue(error.contains("Получение автомобиля должно быть хотя-бы на 1 час позже"));
+        browserTearDown();
+
     }
 
     @Test
     public void cantBookCarInPastByInTheSameDay() throws InterruptedException {
+        browserSetUp();
         page.selectCountry(18).selectCity(1).selectTodayPickupDate().selectPickupTime(Math.max(0, new Date().getHours() - 5)).clickSearch();
         String error = page.getAlertText();
         Assert.assertTrue(error.contains("Дата получения: до сегодняшней даты"));
+        browserTearDown();
+
     }
 
     @Test
     public void cantInputEarlierDropDateThanPickupDate() throws InterruptedException {
+        browserSetUp();
         page.selectCountry(18).selectCity(1).selectTodayPickupDate().selectDropTime(0).selectTodayDropDate().clickSearch();
         String error = page.getAlertText();
         Assert.assertTrue(error.contains("Дата получения: должны быть до Дата возврата"));
+        browserTearDown();
+
     }
 
     @Test
     public void canLogin() throws InterruptedException {
+        browserSetUp();
         page.openLoginWindow().inputEmail("fijoh12516@mail3x.net").inputPassword("123456").tryLogin();
         String message = page.getSuccessMessage();
         Assert.assertEquals(message, "Добро пожаловать,\n" +
                 "вы вошли в сисему.");
+        browserTearDown();
+
     }
 
     @Test
     public void validatesEmailInSignupForm() throws InterruptedException {
+        browserSetUp();
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         page.goToSignupForm().inputSingupEmail("invalidEmail").inputSingupPassword("validPassword123");
         String classListBeforeSubmit = (String) executor.executeScript("return document.querySelector('#modalCrmEmail').classList.toString();");
@@ -89,13 +105,18 @@ public class HomePageTest {
         Thread.sleep(1000);
         String classListAfterSubmit = (String) executor.executeScript("return document.querySelector('#modalCrmEmail').classList.toString();");
         Assert.assertNotEquals(classListAfterSubmit, classListBeforeSubmit);
+        browserTearDown();
+
     }
 
     @Test
     public void cantBookInOffHours() throws InterruptedException {
+        browserSetUp();
         page.selectCountry(18).selectCity(5).selectPlace(1).selectPickupTime(0).clickSearch();
         String error = page.getErrorMessage();
         Assert.assertTrue(error.contains("Извините"));
+        browserTearDown();
+
     }
 
     @AfterTest
