@@ -5,9 +5,10 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.junit.Test;
-import org.junit.After;
-import org.junit.Before;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ public class HomePageTest {
     private WebDriver driver;
     private HomePage page;
 
-    @Before
+    @BeforeTest
     public void browserSetUp() {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
@@ -97,7 +98,7 @@ public class HomePageTest {
         Assert.assertTrue(error.contains("Извините"));
     }
 
-    @After
+    @AfterTest
     public void browserTearDown() {
         if (driver != null) {
             driver.close();
